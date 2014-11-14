@@ -3,8 +3,8 @@
 #include "FWCore/ParameterSet/interface/ParameterSetDescription.h"
 
 namespace edm {
-  ProducerSourceFromFiles::ProducerSourceFromFiles(ParameterSet const& pset, InputSourceDescription const& desc, bool realData) :
-    ProducerSourceBase(pset, desc, realData),
+  ProducerSourceFromFiles::ProducerSourceFromFiles(ParameterSet const& pset, InputSourceDescription const& desc, bool realData, EventAuxiliary::ExperimentType eType) :
+    ProducerSourceBase(pset, desc, realData, eType),
     FromFiles(pset) {
   }
 

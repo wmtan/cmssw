@@ -16,7 +16,7 @@ namespace edm {
 
   class ProducerSourceFromFiles : public ProducerSourceBase, private FromFiles {
   public:
-    ProducerSourceFromFiles(ParameterSet const& pset, InputSourceDescription const& desc, bool realData);
+    ProducerSourceFromFiles(ParameterSet const& pset, InputSourceDescription const& desc, bool realData, EventAuxiliary::ExperimentType eType = EventAuxiliary::Undefined);
     virtual ~ProducerSourceFromFiles();
 
     using FromFiles::logicalFileNames;

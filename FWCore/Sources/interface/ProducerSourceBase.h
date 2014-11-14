@@ -19,7 +19,7 @@ namespace edm {
   class ParameterSetDescription;
   class ProducerSourceBase : public InputSource {
   public:
-    explicit ProducerSourceBase(ParameterSet const& pset, InputSourceDescription const& desc, bool realData);
+    explicit ProducerSourceBase(ParameterSet const& pset, InputSourceDescription const& desc, bool realData, EventAuxiliary::ExperimentType eType = EventAuxiliary::Undefined);
     virtual ~ProducerSourceBase();
 
     unsigned int numberEventsInRun() const {return numberEventsInRun_;} 
@@ -37,6 +37,8 @@ namespace edm {
     static void fillDescription(ParameterSetDescription& desc);
 
   protected:
+
+    void setExperimentType(EventAuxiliary::ExperimentType eType);
 
   private:
     virtual ItemType getNextItemType() override;

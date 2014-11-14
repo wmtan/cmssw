@@ -17,7 +17,9 @@ namespace edm {
   static unsigned long long const kAveEventPerSec = 200ULL;
   
   ProducerSourceBase::ProducerSourceBase(ParameterSet const& pset,
-				       InputSourceDescription const& desc, bool realData) :
+				         InputSourceDescription const& desc,
+                                         bool realData,
+                                         EventAuxiliary::ExperimentType eType) :
       InputSource(pset, desc),
       numberEventsInRun_(pset.getUntrackedParameter<unsigned int>("numberEventsInRun", remainingEvents())),
       numberEventsInLumi_(pset.getUntrackedParameter<unsigned int>("numberEventsInLuminosityBlock", remainingEvents())),
@@ -32,7 +34,7 @@ namespace edm {
       eventID_(pset.getUntrackedParameter<unsigned int>("firstRun", 1), pset.getUntrackedParameter<unsigned int>("firstLuminosityBlock", 1), zerothEvent_),
       origEventID_(eventID_),
       isRealData_(realData),
-      eType_(EventAuxiliary::Undefined) {
+      eType_(eType) {
 
     setTimestamp(Timestamp(presentTime_));
     // We need to map this string to the EventAuxiliary::ExperimentType enumeration
@@ -86,6 +88,11 @@ namespace edm {
       // New Lumi
       setNewLumi();
     }
+  }
+
+  void
+  ProducerSourceBase::setExperimentType(EventAuxiliary::ExperimentType eType) {
+    eType_ = eType;
   }
 
   void
