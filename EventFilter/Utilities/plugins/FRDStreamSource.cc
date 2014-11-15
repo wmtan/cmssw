@@ -5,6 +5,7 @@
 
 #include "DataFormats/FEDRawData/interface/FEDRawDataCollection.h"
 #include "DataFormats/FEDRawData/interface/FEDNumbering.h"
+#include "DataFormats/Provenance/interface/EventAuxiliary.h"
 
 #include "EventFilter/FEDInterface/interface/GlobalEventNumber.h"
 #include "EventFilter/FEDInterface/interface/fed_header.h"
@@ -15,7 +16,7 @@
 
 
 FRDStreamSource::FRDStreamSource(edm::ParameterSet const& pset,
-                                          edm::InputSourceDescription const& desc)
+                                 edm::InputSourceDescription const& desc)
   : ProducerSourceFromFiles(pset,desc,true),
     verifyAdler32_(pset.getUntrackedParameter<bool> ("verifyAdler32", true)),
     useL1EventID_(pset.getUntrackedParameter<bool> ("useL1EventID", false))
@@ -105,6 +106,7 @@ bool FRDStreamSource::setRunAndEventInfo(edm::EventID& id, edm::TimeValue_t& the
       evf::evtn::TCDSRecord record((unsigned char *)(event + eventSize ));
       id = edm::EventID(frdEventMsg->run(),record.getHeader().getData().header.lumiSection,
 			record.getHeader().getData().header.eventNumber);
+      setExperimentType((edm::EventAuxiliary::ExperimentType)FED_EVTY_EXTRACT(fedHeader->eventid));
       //evf::evtn::evm_board_setformat(fedSize);
       uint64_t gpsh = record.getBST().getBST().gpstimehigh;
       uint32_t gpsl = record.getBST().getBST().gpstimelow;
